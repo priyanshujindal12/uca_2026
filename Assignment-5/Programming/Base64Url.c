@@ -25,32 +25,17 @@ int getValue(char c) {
 
 char* encode(const char* input) {
     int len = strlen(input);
-
     int outputLen = 4 * ((len + 2) / 3);
-
     char* output = malloc(outputLen + 1);
-
     int j = 0;
-
     for (int i = 0; i < len; i += 3) {
-
         int b1 = input[i];
-
         int b2 = (i + 1 < len) ? input[i + 1] : 0;
         int b3 = (i + 2 < len) ? input[i + 2] : 0;
-
-        // Extract four 6-bit groups
-
         int group1 = (b1 >> 2) & 63;
-
-        int group2 = ((b1 & 3) << 4) |
-                     ((b2 >> 4) & 15);
-
-        int group3 = ((b2 & 15) << 2) |
-                     ((b3 >> 6) & 3);
-
+        int group2 = ((b1 & 3) << 4) | ((b2 >> 4) & 15);
+        int group3 = ((b2 & 15) << 2) | ((b3 >> 6) & 3);
         int group4 = b3 & 63;
-
         output[j++] = BASE64[group1];
         output[j++] = BASE64[group2];
         if (i + 1 < len)
