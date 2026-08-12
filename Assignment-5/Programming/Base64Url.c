@@ -38,10 +38,8 @@ char* encode(const char* input) {
         int group4 = b3 & 63;
         output[j++] = BASE64[group1];
         output[j++] = BASE64[group2];
-        if (i + 1 < len)
-            output[j++] = BASE64[group3];
-        else
-            output[j++] = '=';
+        if (i + 1 < len) output[j++] = BASE64[group3];
+        else output[j++] = '=';
 
         if (i + 2 < len)
             output[j++] = BASE64[group4];
@@ -55,71 +53,16 @@ char* encode(const char* input) {
 }
 
 
-char* decode(const char* input) {
-
-    int len = strlen(input);
-
-    int outputLen = (len / 4) * 3;
-    if (len > 0 && input[len - 1] == '=')
-        outputLen--;
-
-    if (len > 1 && input[len - 2] == '=')
-        outputLen--;
-
-    char* output = malloc(outputLen + 1);
-
-    int j = 0;
-
-    for (int i = 0; i < len; i += 4) {
-
-        int v1 = getValue(input[i]);
-        int v2 = getValue(input[i + 1]);
-
-        int v3 = (input[i + 2] == '=') ?
-                 0 : getValue(input[i + 2]);
-
-        int v4 = (input[i + 3] == '=') ?
-                 0 : getValue(input[i + 3]);
-
-
-        int b1 = (v1 << 2) | (v2 >> 4);
-
-        int b2 = ((v2 & 15) << 4) |
-                 (v3 >> 2);
-
-        int b3 = ((v3 & 3) << 6) |
-                 v4;
-
-        output[j++] = b1;
-
-        if (input[i + 2] != '=')
-            output[j++] = b2;
-
-        if (input[i + 3] != '=')
-            output[j++] = b3;
-    }
-
-    output[j] = '\0';
-
-    return output;
-}
-
-
 int main() {
 
-    const char* text = "Hello World";
+    const char* text = "";
 
     char* encoded = encode(text);
 
     printf("Original : %s\n", text);
     printf("Encoded  : %s\n", encoded);
-
-    char* decoded = decode(encoded);
-
-    printf("Decoded  : %s\n", decoded);
-
     free(encoded);
-    free(decoded);
+   
 
     return 0;
 }
