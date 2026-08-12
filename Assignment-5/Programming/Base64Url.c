@@ -6,23 +6,6 @@ const char BASE64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
-
-int getValue(char c) {
-    if (c >= 'A' && c <= 'Z')
-        return c - 'A';
-    if (c >= 'a' && c <= 'z')
-        return c - 'a' + 26;
-    if (c >= '0' && c <= '9')
-        return c - '0' + 52;
-    if (c == '+')
-        return 62;
-    if (c == '/')
-        return 63;
-    return -1;
-}
-
-
-
 char* encode(const char* input) {
     int len = strlen(input);
     int outputLen = 4 * ((len + 2) / 3);
